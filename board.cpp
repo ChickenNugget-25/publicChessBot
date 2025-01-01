@@ -623,24 +623,27 @@ u64 Board::PseudoMoves(int index, int type, bool isForAttkBB) {
             return knightMoves[index] & ~friendlyBB;
         case BISHOP:
             // hashIndex = magicIndex(bishopMagics[index], allPiecesBoard);
-            // return bishopMoves[index].at(hashIndex) & ~friendlyBB;
+            // return bishopMoves[index][hashIndex] & ~friendlyBB;
+            return getBishopMoves(index, allPiecesBoard) & ~friendlyBB;
             // return bishopMoves[index] & ~friendlyBB;
-            return bishopMovesBlocked(index, allPiecesBoard) & ~friendlyBB;
+            // return bishopMovesBlocked(index, allPiecesBoard) & ~friendlyBB;
         case ROOK:
             // hashIndex = magicIndex(rookMagics[index], allPiecesBoard);
-            // return rookMoves[index].at(hashIndex) & ~friendlyBB;
+            // return rookMoves[index][hashIndex] & ~friendlyBB;
+            return getRookMoves(index, allPiecesBoard) & ~friendlyBB;
             // return rookMoves[index] & ~friendlyBB;
-            return rookMovesBlocked(index, allPiecesBoard) & ~friendlyBB;
+            // return rookMovesBlocked(index, allPiecesBoard) & ~friendlyBB;
         case QUEEN:
             // hashIndex = magicIndex(rookMagics[index], allPiecesBoard);
-            // move |= rookMoves[index].at(hashIndex);
+            // move |= rookMoves[index][hashIndex];
             
             // hashIndex = magicIndex(bishopMagics[index], allPiecesBoard);
-            // move |= bishopMoves[index].at(hashIndex);
+            // move |= bishopMoves[index][hashIndex];
+            return (getBishopMoves(index, allPiecesBoard) | getRookMoves(index, allPiecesBoard)) & ~friendlyBB;
 
             // return move & ~friendlyBB;
             // return queenMoves[index] & ~friendlyBB;
-            return (bishopMovesBlocked(index, allPiecesBoard) | rookMovesBlocked(index, allPiecesBoard)) & ~friendlyBB;
+            // return (bishopMovesBlocked(index, allPiecesBoard) | rookMovesBlocked(index, allPiecesBoard)) & ~friendlyBB;
         case KING:
 
             move = kingMoves[index];
